@@ -1,0 +1,57 @@
+{% extends "Account/home.html" %}
+
+{% block body_block_sec %}
+<li class="nav-item my-2 my-lg-0">
+  <a class="nav-link" href="#">{{ name }}</a>
+</li>
+<li class="nav-item my-2 my-lg-0">
+  <a class="nav-link" href="{% url 'Account:logout' %}">LogOut</a>
+</li>
+{% endblock %}
+
+{% block body_block %}
+<div class="container">
+    <ul class="list-inline">
+      <li class="list-inline-item"><a href="{% url 'Image:image' %}">Upload the Image</a></li>
+      <li class="list-inline-item"><a href="{% url 'Image:view' %}">View Image</a></li>
+    </ul>
+</div>
+<section>
+    <div class="container-fluid">
+      <div class="row">
+        {% for ima in image %}
+        <div class="col-sm-3">
+          <img src="media/{{ ima.image }}" alt="image" style="width:80%; height:80%" onclick="display('{{ ima.id }}')">
+          <h6 style="text-align: center; width: 80%;">Title:- {{ ima.title }}</h6>
+          <h6 style="width: 80%; display: none;" class="show{{ ima.id }}" id="descreption{{ ima.id }}">Descreption:- {{ ima.descreption }}</h6>
+          <form action="delete/{{ ima.id }}" method="delete">
+            <button class="btn btn-danger show{{ ima.id }}" style="display: none; width: 80%;" id="delete{{ ima.id }}">Delete</button>
+          </form>
+        </div>
+        {% endfor %}
+    </div>
+  </div>
+</section>
+
+<script>
+function display(id){
+  var descreption = document.getElementById('descreption'+id);
+  if (descreption.style.display === "none") {
+    descreption.style.display = "block";
+  }
+  else{
+    descreption.style.display = "none";
+  }
+  var del = document.getElementById('delete'+id);
+  if (del.style.display === "none"){
+    del.style.display = "block";
+  }
+  else{
+    del.style.display = "none";
+  }
+}
+</script>
+
+{% endblock %}
+
+var element = document.querySelectorAll(".show"+id).forEach(a=>a.style.display = 'block');
